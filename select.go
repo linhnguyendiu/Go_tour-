@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func Fibonac(c, quit chan int) {
 	x, y := 0, 1
@@ -25,4 +28,20 @@ func main() {
 		quit <- 0
 	}()
 	Fibonac(c, quit)
+
+	// Default Selection
+	tick := time.Tick(100 * time.Millisecond)
+	boom := time.After(500 * time.Millisecond)
+	for {
+		select {
+		case <-tick:
+			fmt.Println("tick.")
+		case <-boom:
+			fmt.Println("BOOM!")
+			return
+		default:
+			fmt.Println("    .")
+			time.Sleep(50 * time.Millisecond)
+		}
+	}
 }

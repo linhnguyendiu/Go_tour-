@@ -43,6 +43,18 @@ type NI interface {
 	N()
 }
 
+//Type switches
+func do(i interface{}) {
+	switch v := i.(type) {
+	case int:
+		fmt.Printf("Twice %v is %v\n", v, v*2)
+	case string:
+		fmt.Printf("%q is %v bytes long\n", v, len(v))
+	default:
+		fmt.Printf("I don't know about type %T!\n", v)
+	}
+}
+
 func main() {
 	var a Abser
 	f := MyFloat(-math.Sqrt(2))
@@ -80,6 +92,24 @@ func main() {
 
 	eI = "hello"
 	describeEmp(eI)
+
+	//Type assertions
+	s := eI.(string)
+	fmt.Println(s)
+
+	s, ok := eI.(string)
+	fmt.Println(s, ok)
+
+	g, ok := eI.(float64)
+	fmt.Println(g, ok)
+
+	// g = eI.(float64) // panic
+	// fmt.Println(g)
+
+	// Type switch
+	do(21)
+	do("hello")
+	do(true)
 }
 
 type MyFloat float64
